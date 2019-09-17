@@ -89,12 +89,21 @@ public class AuthService {
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
+        if (roleRepository.count() == 0) {
+            Role role = new Role();
+            role.setName(RoleName.ROLE_CLIENT);
+            roleRepository.save(role);
+            role.setName(RoleName.ROLE_MANAGER);
+            roleRepository.save(role);
+            role.setName(RoleName.ROLE_ADMIN);
+            roleRepository.save(role);
+        }
+
         List<Role> roles = new ArrayList<>();
         if(userRepository.count() == 0){
-            roles.add(roleRepository.findByName(RoleName.ROLE_USER).orElseThrow(() -> new AppException("User role not set")));
             roles.add(roleRepository.findByName(RoleName.ROLE_ADMIN).orElseThrow(() -> new AppException("User role not set")));
         } else{
-            roles.add(roleRepository.findByName(RoleName.ROLE_USER).orElseThrow(() -> new AppException("User role not set")));
+            roles.add(roleRepository.findByName(RoleName.ROLE_CLIENT).orElseThrow(() -> new AppException("User role not set")));
         }
 
         user.setRoles(roles);

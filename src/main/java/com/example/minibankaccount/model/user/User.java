@@ -1,5 +1,6 @@
 package com.example.minibankaccount.model.user;
 
+import com.example.minibankaccount.model.account.Account;
 import com.example.minibankaccount.model.audit.DateAudit;
 import com.example.minibankaccount.model.role.Role;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -54,6 +55,11 @@ public class User extends DateAudit {
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private List<Role> roles;
+
+    @OneToMany(mappedBy = "user",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY)
+    private List<Account> account;
 
     public User(String firstName, String lastName, String username, String email, String password, boolean enabled, boolean accountNonExpired, boolean accountNonLocked, boolean credentialsNonExpired) {
         this.firstName = firstName;
