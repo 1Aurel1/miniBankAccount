@@ -22,6 +22,7 @@ public class Transaction extends DateOfTransactionAudit {
     private String description;
     private int amount;
     private TransactionType transactionType;
+    private TransactionState transactionState;
 
     @ManyToOne(cascade = {
             CascadeType.DETACH, CascadeType.MERGE,

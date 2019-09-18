@@ -1,4 +1,4 @@
-package com.example.minibankaccount.payload.user;
+package com.example.minibankaccount.payload.account;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserSummary {
-    private String name;
-    private String email;
+public class AccountSummary {
+    private Long id;
+    private String accountName;
 }

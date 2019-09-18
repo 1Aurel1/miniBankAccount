@@ -32,31 +32,14 @@ public class AuthController {
         return authService.registerUser(signUpRequest);
     }
 
-//    @RequestMapping(value = "/confirm-email", method = {RequestMethod.GET, RequestMethod.POST})
-//    public ResponseEntity<?> confirmUserAccount(@RequestParam("token") String confirmationToken) {
-//        return authService.confirmAccount(confirmationToken);
-//    }
-//
-//    @RequestMapping(value = "/request-confirmation-token", method = {RequestMethod.GET, RequestMethod.POST})
-//    public ResponseEntity<?> requestConfToken(@RequestParam("email") String email){
-//        return authService.resendConfToken(email);
-//    }
-//
-//    @GetMapping("/resetPassword")
-//    public ResponseEntity<?> sendRestPaswordToken(
-//               @RequestParam(name = "email") String email
-//        ){
-//        return authService.sendResetToken(email);
-//    }
-//
-//    @PutMapping("/resetPassword")
-//    public ResponseEntity<?> resetPassword(
-//            @Valid @RequestBody ResetPasswordRequest resetPasswordRequest
-//            ){
-//
-//        if (resetPasswordRequest.getPass().equals(resetPasswordRequest.getConfPass()))
-//            return authService.resetUserPassword(resetPasswordRequest.getToken(), resetPasswordRequest.getPass());
-//        return new ResponseEntity<>(new ApiResponse("error",HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), "Passwords did not match!"), HttpStatus.BAD_REQUEST);
-//    }
+    @RequestMapping(value = "/confirm-email", method = {RequestMethod.POST})
+    public ResponseEntity<?> confirmUserAccount(@RequestParam("token") String confirmationToken) {
+        return authService.confirmAccount(confirmationToken);
+    }
+
+    @RequestMapping(value = "/request-confirmation-token", method = {RequestMethod.POST})
+    public ResponseEntity<?> requestConfToken(@RequestParam("email") String email){
+        return authService.resendConfToken(email);
+    }
 
 }

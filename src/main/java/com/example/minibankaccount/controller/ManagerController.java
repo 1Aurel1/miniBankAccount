@@ -21,7 +21,48 @@ public class ManagerController {
         this.managerService = managerService;
     }
 
-    @GetMapping("/unapproved/accounts")
+
+    @GetMapping("/undecided/transactions")
+    public ResponseEntity<?> getUnConfirmedTransactions(
+            @RequestParam(value = "page", required = false, defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) Integer page,
+            @RequestParam(value = "size", required = false, defaultValue = AppConstants.DEFAULT_PAGE_SIZE) Integer size
+            ){
+        return managerService.getUnDecidedTransactions(page, size);
+    }
+
+    @GetMapping("/rejected/transactions")
+    public ResponseEntity<?> getRejectedTransactions(
+            @RequestParam(value = "page", required = false, defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) Integer page,
+            @RequestParam(value = "size", required = false, defaultValue = AppConstants.DEFAULT_PAGE_SIZE) Integer size
+    ){
+        return managerService.getRejectedTransactions(page, size);
+    }
+
+    @GetMapping("/approved/transactions")
+    public ResponseEntity<?> getApprovedTransactions(
+            @RequestParam(value = "page", required = false, defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) Integer page,
+            @RequestParam(value = "size", required = false, defaultValue = AppConstants.DEFAULT_PAGE_SIZE) Integer size
+            ){
+        return managerService.getApprovedTransactions(page, size);
+    }
+
+    @PutMapping("/approve/transaction/{transactionId}")
+    public ResponseEntity<?> confirmTransaction(
+            @PathVariable("transactionId") Long transactionId
+            ){
+        return managerService.approveTransaction(transactionId);
+    }
+
+    @PutMapping("/reject/transaction/{transactionId}")
+    public ResponseEntity<?> rejectTransaction(
+            @PathVariable("transactionId") Long transactionId
+    ){
+        return managerService.rejectTransaction(transactionId);
+    }
+
+
+
+    @GetMapping("/undecided/accounts")
     public ResponseEntity<?> getUnApprovedAccounts(
             @RequestParam(value = "page", required = false, defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) Integer page,
             @RequestParam(value = "size", required = false, defaultValue = AppConstants.DEFAULT_PAGE_SIZE) Integer size

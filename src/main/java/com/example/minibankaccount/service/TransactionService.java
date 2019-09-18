@@ -4,6 +4,7 @@ import com.example.minibankaccount.exeption.BadRequestException;
 import com.example.minibankaccount.exeption.ResourceNotFoundException;
 import com.example.minibankaccount.model.account.Account;
 import com.example.minibankaccount.model.transaction.Transaction;
+import com.example.minibankaccount.model.transaction.TransactionState;
 import com.example.minibankaccount.model.transaction.TransactionType;
 import com.example.minibankaccount.model.transaction.Transfer;
 import com.example.minibankaccount.payload.ApiResponse;
@@ -42,21 +43,21 @@ public class TransactionService {
         {
             switch (newTransactionRequest.getTransactionType()){
                 case 0:
+
                     Transaction transaction = new Transaction();
                     transaction.setAccount(account);
                     transaction.setAmount(newTransactionRequest.getAmount());
                     transaction.setDescription(newTransactionRequest.getDescription());
                     transaction.setTransactionType(TransactionType.DEPOSIT);
+                    transaction.setTransactionState(TransactionState.UN_DECIDED);
                     transaction = transactionRepository.saveAndFlush(transaction);
 
-                    int tempBalance = account.getCurrentBalance();
-                    account.setCurrentBalance(tempBalance + transaction.getAmount());
-                    accountRepository.save(account);
                     return new ResponseEntity<>(transaction, HttpStatus.OK);
                 case 1:
                     if (newTransactionRequest.getAmount() < account.getCurrentBalance()){
                         Transaction transaction1 = new Transaction();
                         transaction1.setAccount(account);
+                        transaction1.setTransactionState(TransactionState.APPROVED);
                         transaction1.setAmount(newTransactionRequest.getAmount());
                         transaction1.setDescription(newTransactionRequest.getDescription());
                         transaction1.setTransactionType(TransactionType.WITHDRAWAL);
@@ -76,6 +77,7 @@ public class TransactionService {
                         transfer.setAmount(newTransactionRequest.getAmount());
                         transfer.setDescription(newTransactionRequest.getDescription());
                         transfer.setTransactionType(TransactionType.TRANSFER);
+                        transfer.setTransactionState(TransactionState.APPROVED);
                         transfer.setReceiver(receiver);
                         transfer = transactionRepository.save(transfer);
 
